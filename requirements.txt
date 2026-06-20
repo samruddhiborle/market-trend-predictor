@@ -1,0 +1,8 @@
+streamlit
+python-dotenv
+openai
+sentence-transformers
+qdrant-client
+pytrends
+reportlab
+groq
