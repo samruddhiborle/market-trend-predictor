@@ -1,96 +1,191 @@
 # Market Trend Predictor
 
-Predict demand and validate product ideas using Google Trends, large-scale market text (Reddit + Amazon), semantic embeddings, and a RAG-driven analyst report.
+## Overview
 
-## Description
+Market Trend Predictor is an AI-powered market validation platform that helps entrepreneurs, startups, and product teams evaluate new product ideas before launch.
 
-Market Trend Predictor helps founders, product managers, and researchers rapidly validate product ideas. Enter a product idea and the system will:
+The system combines:
 
-- Pull a Google Trends score for the query.
-- Retrieve semantically relevant market documents (Reddit posts + Amazon reviews) from a Qdrant vector database.
-- Synthesize an evidence-backed market report using a generative LLM, including demand score, target audience, pros/risks, and launch recommendation.
+* Google Trends for real-world search demand
+* Reddit discussions for consumer sentiment and market conversations
+* Amazon reviews for product feedback and customer insights
+* Semantic search using Sentence Transformers and Qdrant
+* Retrieval-Augmented Generation (RAG) for evidence-backed market reports
+
+Users simply enter a product idea, and the system generates a detailed market analysis report including demand score, target audience, market opportunities, risks, and launch recommendations.
+
+---
 
 ## Features
 
-- Google Trends integration via `pytrends` for real-world interest signals.
-- Document ingestion and embedding using `sentence-transformers`.
-- Vector storage and nearest-neighbor search with Qdrant (`vector_db/`).
-- RAG (retrieval-augmented generation) report production using a configured generative model.
-- Streamlit UI in `app.py` for interactive use and PDF export of reports.
+### Google Trends Integration
 
-## Contents
+Analyze real-world search interest and demand patterns using Google Trends.
 
-- `app.py` - Streamlit web UI and report generator.
-- `ingest.py` - Builds documents from datasets, creates embeddings, and uploads to Qdrant.
-- `rag.py` - CLI-style RAG runner for single-query reports.
-- `google_trends.py` - Helper for retrieving Google Trends scores.
-- `data/` - Raw datasets used for ingestion (Reddit, Amazon reviews).
-- `vector_db/` - Local Qdrant storage (collection: `market_data`).
-- `requirements.txt` - Python dependencies.
+### Semantic Market Retrieval
 
-## Quickstart
+Retrieve relevant Reddit discussions and Amazon reviews using vector embeddings and similarity search.
 
-1. Create and activate a Python environment (recommended Python 3.10+).
+### RAG-Based Market Intelligence
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+Generate structured market reports grounded in retrieved evidence rather than generic AI responses.
+
+### AI-Powered Analysis
+
+Evaluate:
+
+* Demand Score
+* Trend Analysis
+* Target Audience
+* Market Opportunities
+* Risks and Challenges
+* Launch Recommendations
+
+### Interactive Streamlit Dashboard
+
+Modern web interface with:
+
+* Product analysis workflow
+* Real-time progress tracking
+* Trend metrics
+* Downloadable reports
+
+### PDF Report Export
+
+Download generated market reports for sharing and documentation.
+
+---
+
+## System Architecture
+
+```text
+User Input
+    ↓
+Google Trends API
+    ↓
+Query Embedding
+    ↓
+Qdrant Vector Search
+    ↓
+Relevant Reddit + Amazon Data
+    ↓
+RAG Pipeline
+    ↓
+LLM Report Generation
+    ↓
+Market Intelligence Dashboard
 ```
 
-2. Environment variables
+---
 
-Create a `.env` file with any required keys. Examples used in the repo:
+## Tech Stack
 
-- `GOOGLE_API_KEY` — if using Google generative APIs in `rag.py`.
-- Other API keys (if you swap the LLM provider) can be added as needed.
+### Frontend
 
-3. Ingest data (optional — only if you want to rebuild vectors)
+* Streamlit
 
-```powershell
-python ingest.py
+### AI & Machine Learning
+
+* Groq / LLM
+* Sentence Transformers
+* Retrieval-Augmented Generation (RAG)
+
+### Vector Database
+
+* Qdrant
+
+### Data Sources
+
+* Google Trends
+* Reddit Discussions
+* Amazon Product Reviews
+
+### Utilities
+
+* Python
+* ReportLab
+* Python Dotenv
+
+---
+
+## Project Structure
+
+```text
+Market-Trend-Predictor/
+│
+├── app.py
+├── rag.py
+├── ingest.py
+├── google_trends.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+│
+├── vector_db/
+│
+└── data/
+    ├── business_data.csv
+    ├── Entrepreneur_data.csv
+    ├── engineering_data.csv
+    ├── employment_reddit_data.csv
+    ├── povertyfinance_data.csv
+    ├── science_data.csv
 ```
 
-4. Run the Streamlit app
+---
 
-```powershell
-streamlit run app.py
-```
+## Example Workflow
 
-5. Run the CLI RAG tool (example)
+1. Enter a product idea
+2. Fetch Google Trends score
+3. Retrieve relevant market documents
+4. Generate AI-powered market report
+5. Review opportunities and risks
+6. Download the report
 
-```powershell
-python rag.py
-# then enter a product idea at the prompt
-```
+Example product ideas:
 
-## Notes
+* Protein Chips
+* Sustainable Clothing
+* AI Resume Builder
+* Smart Water Bottle
+* Budget Travel Planner
 
-- The repository stores vectors in `vector_db/` for local Qdrant usage. If you delete or re-create this folder, re-run `ingest.py` to rebuild the collection.
-- `ingest.py` limits rows during demo runs (`head(2000)`) — adjust as needed for full ingestion.
-- `google_trends.py` returns a neutral score (50) on failure to avoid blocking the pipeline.
+---
 
-## GitHub-friendly files
+## Sample Output
 
-### Add to the repo
+The generated report includes:
 
-- `app.py`
-- `rag.py`
-- `ingest.py`
-- `google_trends.py`
-- `requirements.txt`
-- `README.md`
-- `.gitignore`
-- `.env.example` or docs showing required keys
-- helper scripts such as `download_data.py` if you add one
+* Demand Score
+* Trend Analysis
+* Target Audience
+* Supporting Evidence
+* Market Inference
+* Pros and Cons
+* Risk Assessment
+* Launch Recommendation
 
-### Keep out of the repo
+---
 
-- `data/*.csv` if files are larger than 100 MB
-- `vector_db/` (generated Qdrant storage)
-- `report_cache.db`
-- Python caches and compiled files
+## Future Enhancements
 
-## Data download guidance
+* Live Reddit API Integration
+* Real-Time Amazon Review Analysis
+* Trend Visualization Charts
+* Competitor Analysis
+* Multi-LLM Support
+* Report History Dashboard
+* Cloud Qdrant Deployment
+* Market Forecasting Models
+* Social Media Trend Analysis (Instagram, X/Twitter, YouTube, TikTok)
+* Influencer & Creator Trend Tracking
+* Hashtag Popularity Analysis
 
-Large datasets should be stored externally (Google Drive, Dropbox, S3, Kaggle, etc.). Add a small script or README section that explains how to download the data and place it in `data/`.
+---
+
+Due to GitHub's file size limitations, the datasets used for training and vector database generation are not included in this repository.
+
+The complete dataset collection can be downloaded from the following Google Drive link:
+
+Dataset Download: https://drive.google.com/drive/folders/11F-s71Y9sGdhhnZCStlpDx5FRDPzJJC3?usp=sharing
