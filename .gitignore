@@ -3,5 +3,4 @@ __pycache__/
 *.pyc
 report_cache.db
 .streamlit/secrets.toml
-vector_db/
 data/*.csv
