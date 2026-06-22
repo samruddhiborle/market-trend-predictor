@@ -31,6 +31,7 @@ st.set_page_config(
     page_icon="MT",
     layout="wide"
 )
+st.write("APP STARTED")
 
 st.markdown("""
 <style>
@@ -468,8 +469,8 @@ def load_qdrant():
         path="vector_db"
     )
 
-embedder = load_embedder()
-client = load_qdrant()
+embedder = None
+client = None
 
 # ==================================================
 # HELPERS
@@ -848,6 +849,12 @@ elif st.session_state.page == "analyze":
 
                     st.write("Searching vector database...")
 
+                    if embedder is None:
+                        embedder = load_embedder()
+
+                    if client is None:
+                        client = load_qdrant()
+                        
                     query_vector = embedder.encode(
                         clean_query
                     ).tolist()
