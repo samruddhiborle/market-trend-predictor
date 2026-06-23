@@ -548,7 +548,6 @@ def save_cached_report(query, trend_score, report, source):
             ),
         )
 
-
 def fallback_report(query, trend_score, context):
     interest = market_interest(trend_score)
     recommendation = "Test First"
@@ -608,7 +607,6 @@ def generate_groq_report(prompt):
 
 
 init_cache()
-
 
 def build_context(points):
     snippets = []
